@@ -1,0 +1,25 @@
+name: PR Title Convention Check
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+
+jobs:
+  check-pr-title:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR title format
+        run: |
+          TITLE="${{ github.event.pull_request.title }}"
+          echo "PR Title: $TITLE"
+
+          REGEX="^feat\\([a-zA-Z0-9_-]+\\): .+"
+
+          if [[ ! "$TITLE" =~ $REGEX ]]; then
+            echo "❌ PR title does not follow convention"
+            echo "Expected format:"
+            echo "feat(scope): message"
+            exit 1
+          fi
+
+          echo "✅ PR title format is valid"

@@ -2,9 +2,6 @@ name: CI Workflow
 
 on: [push]
 
-
-
-
 jobs:
 
   build:

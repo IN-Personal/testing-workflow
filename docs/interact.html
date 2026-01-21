@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interactive Demo</title>
+
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #020617;
+      --text: #e5e7eb;
+      --accent: #38bdf8;
+    }
+
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --panel: #ffffff;
+      --text: #0f172a;
+      --accent: #0284c7;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 900px;
+      background: var(--panel);
+      border-radius: 14px;
+      padding: 2rem;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    header h1 {
+      margin: 0;
+    }
+
+    button {
+      background: var(--accent);
+      border: none;
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    nav {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    nav button {
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+    }
+
+    nav button.active {
+      background: var(--accent);
+      color: #020617;
+    }
+
+    section {
+      display: none;
+      margin-top: 1rem;
+    }
+
+    section.active {
+      display: block;
+    }
+
+    .counter {
+      font-size: 2rem;
+      margin: 1rem 0;
+    }
+
+    footer {
+      margin-top: 2rem;
+      opacity: 0.6;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="app" id="app">
+    <header>
+      <h1>⚡ Interactive Demo</h1>
+      <button onclick="toggleTheme()">Toggle Theme</button>
+    </header>
+
+    <nav>
+      <button class="active" onclick="showTab(0)">Overview</button>
+      <button onclick="showTab(1)">Counter</button>
+      <button onclick="showTab(2)">State</button>
+    </nav>
+
+    <section class="active">
+      <p>This is a <strong>fully interactive page</strong> hosted on GitHub Pages.</p>
+      <ul>
+        <li>No framework</li>
+        <li>Pure HTML / CSS / JS</li>
+        <li>Instant deploy</li>
+      </ul>
+    </section>
+
+    <section>
+      <p>Click the buttons to change the counter:</p>
+      <div class="counter" id="count">0</div>
+      <button onclick="changeCount(1)">+</button>
+      <button onclick="changeCount(-1)">−</button>
+    </section>
+
+    <section>
+      <p>This value persists using <code>localStorage</code>:</p>
+      <input id="note" placeholder="Type something…" />
+    </section>
+
+    <footer>
+      Built with ❤️ on GitHub Pages
+    </footer>
+  </div>
+
+  <script>
+    let currentTab = 0;
+    let count = Number(localStorage.getItem("count") || 0);
+
+    document.getElementById("count").textContent = count;
+
+    function showTab(index) {
+      document.querySelectorAll("nav button").forEach((btn, i) => {
+        btn.classList.toggle("active", i === index);
+      });
+      document.querySelectorAll("section").forEach((sec, i) => {
+        sec.classList.toggle("active", i === index);
+      });
+      currentTab = index;
+    }
+
+    function changeCount(delta) {
+      count += delta;
+      localStorage.setItem("count", count);
+      document.getElementById("count").textContent = count;
+    }
+
+    function toggleTheme() {
+      const app = document.getElementById("app");
+      const theme = app.getAttribute("data-theme") === "light" ? "dark" : "light";
+      app.setAttribute("data-theme", theme);
+      localStorage.setItem("theme", theme);
+    }
+
+    // restore theme + note
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) {
+      document.getElementById("app").setAttribute("data-theme", savedTheme);
+    }
+
+    const note = document.getElementById("note");
+    note.value = localStorage.getItem("note") || "";
+    note.addEventListener("input", () => {
+      localStorage.setItem("note", note.value);
+    });
+  </script>
+</body>
+</html>

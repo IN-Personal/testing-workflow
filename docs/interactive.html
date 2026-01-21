@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My First Interactive Page</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .card {
+      background: #020617;
+      padding: 2rem;
+      border-radius: 12px;
+      max-width: 420px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    }
+    button {
+      margin-top: 1rem;
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      border: none;
+      background: #38bdf8;
+      color: #020617;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0ea5e9;
+    }
+    .message {
+      margin-top: 1rem;
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>🎉 Interactive Page Live</h1>
+    <p>This page is hosted on GitHub Pages.</p>
+
+    <button onclick="showMessage()">Click me</button>
+
+    <div class="message" id="message"></div>
+  </div>
+
+  <script>
+    function showMessage() {
+      const messages = [
+        "You just triggered JavaScript 🎯",
+        "This page is fully interactive ⚡",
+        "GitHub Pages can run JS ✨",
+        "Docs don’t have to be boring 🚀"
+      ];
+      const random = Math.floor(Math.random() * messages.length);
+      document.getElementById("message").textContent = messages[random];
+    }
+  </script>
+</body>
+</html>
